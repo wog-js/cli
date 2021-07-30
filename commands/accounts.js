@@ -1,9 +1,7 @@
 // Require modules
 const chalk = require('chalk');
-const inquirer = require('inquirer');
+const enquirer = require('enquirer');
 const { printTable } = require('console-table-printer');
-
-inquirer.registerPrompt('search-list', require('inquirer-search-list'));
 
 /**
  * @param {import('yargs')} cli
@@ -44,7 +42,7 @@ module.exports = (cli, container) => {
     (_yargs) => {},
     async (_args) => {
       console.log();
-      const answers = await inquirer.prompt([
+      const answers = await enquirer.prompt([
         {
           type: 'input',
           name: 'username',
@@ -70,7 +68,7 @@ module.exports = (cli, container) => {
           }
         },
         {
-          type: 'list',
+          type: 'select',
           name: 'role',
           message: 'Select the user role:',
           choices: async () => Promise.resolve(['user', 'admin']) // TODO: Fetch from somewhere ...
@@ -95,14 +93,14 @@ module.exports = (cli, container) => {
     }
   );
 
-  cli.command('accounts:delete', 'Delete a user account.',
+  cli.command('accounts:delete', 'Delete a user account.', // TODO: allow for mass deletion
     (_yargs) => {},
     async (_args) => {
       console.log();
 
-      const selection = await inquirer.prompt([
+      const selection = await enquirer.prompt([
         {
-          type: 'search-list',
+          type: 'autocomplete',
           message: 'Select the user to delete',
           name: 'user',
           choices: async () => {
