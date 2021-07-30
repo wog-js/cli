@@ -14,6 +14,7 @@ const reader = new Reader(`${chalk.green('wog')} $ `);
  */
 module.exports = async (container) => {
   // Register commands
+  require('./commands/accounts')(cli, container);
   cli.command('exit', 'Exit the application', {}, (_argv) => reader.close());
   cli.command('version', 'Prints version information', {}, (_argv) => {
     const wogVersion = container.resolve('wogVersion');
